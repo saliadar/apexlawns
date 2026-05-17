@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Apex Lawn & Maintenance – South West Sydney's trusted lawn mowing, garden maintenance, hedge trimming, pressure cleaning, turf installation and property clean up specialists. Servicing all Sydney areas.">
+  <title>Apex Lawn & Maintenance | South West Sydney Lawn Care</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,700;1,800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- EmailJS -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ===================== NAVBAR ===================== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#home" class="nav-logo">
+        <img src="logo-dark.png.jpeg" alt="Apex Lawn & Maintenance" class="logo-img"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+        <span class="logo-fallback" style="display:none">
+          <span class="lf-apex">APEX</span>
+          <span class="lf-sub">LAWN &amp; MAINTENANCE</span>
+        </span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="#home" class="nav-link">Home</a></li>
+        <li><a href="#services" class="nav-link">Services</a></li>
+        <li><a href="#gallery" class="nav-link">Gallery</a></li>
+        <li><a href="#contact" class="nav-link">Contact</a></li>
+        <li><a href="#contact" class="nav-link nav-cta">Get a Free Quote</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero" id="home">
+    <div class="hero-bg-pattern"></div>
+    <div class="hero-content">
+      <span class="hero-badge">
+        <i class="fas fa-map-marker-alt"></i> South West Sydney &amp; All Sydney Areas
+      </span>
+      <h1 class="hero-title">
+        Sydney's Trusted<br>
+        <span class="green">Lawn &amp; Maintenance</span><br>
+        Experts
+      </h1>
+      <p class="hero-subtitle">
+        Professional lawn mowing, garden maintenance, hedge trimming, pressure cleaning, turf installation and property clean ups — for residential, commercial, real estate &amp; strata properties.
+      </p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn btn-primary">
+          <i class="fas fa-clipboard-list"></i> Get a Free Quote
+        </a>
+        <a href="tel:0402723634" class="btn btn-outline">
+          <i class="fas fa-phone"></i> 0402 723 634
+        </a>
+      </div>
+    </div>
+    <a href="#services" class="hero-scroll" aria-label="Scroll down">
+      <span>Scroll Down</span>
+      <i class="fas fa-chevron-down"></i>
+    </a>
+  </section>
+
+  <!-- ===================== SERVICES ===================== -->
+  <section class="services" id="services">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">What We Do</span>
+        <h2 class="section-title">Our Services</h2>
+        <p class="section-sub">We handle every aspect of lawn and garden care so your property always looks its best — whether it's a one-off job or regular maintenance.</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-seedling"></i></div>
+          <h3>Lawn Mowing</h3>
+          <p>Regular, reliable mowing with clean edges and a sharp, professional finish every single visit.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-leaf"></i></div>
+          <h3>Garden Maintenance</h3>
+          <p>Weeding, pruning, mulching and ongoing care to keep your garden healthy and thriving year round.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-cut"></i></div>
+          <h3>Hedge Trimming</h3>
+          <p>Precision shaping of hedges and shrubs to give your property a neat, well-kept appearance.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-shower"></i></div>
+          <h3>Pressure Cleaning</h3>
+          <p>High-pressure cleaning of driveways, paths, patios and hard surfaces to restore them to their best.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-layer-group"></i></div>
+          <h3>Turf Installation</h3>
+          <p>Supply and lay premium turf with proper ground preparation for a lush, long-lasting lawn.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon"><i class="fas fa-broom"></i></div>
+          <h3>Property Clean Ups</h3>
+          <p>One-off or seasonal clean ups to restore overgrown or neglected properties quickly and professionally.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== WHY CHOOSE US ===================== -->
+  <section class="why-us">
+    <div class="container">
+      <div class="section-header light">
+        <span class="section-tag">Why Apex</span>
+        <h2 class="section-title">Professional Results You Can Rely On</h2>
+        <p class="section-sub light-sub">We take pride in quality work, attention to detail and keeping your property looking its best.</p>
+      </div>
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-shield-halved"></i></div>
+          <h3>Reliable &amp; On Time</h3>
+          <p>We show up when we say we will. Consistent, dependable service you can count on every single visit.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-star"></i></div>
+          <h3>Attention to Detail</h3>
+          <p>No shortcuts, no mess left behind. We work to a high standard on every job — big or small.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <h3>All Sydney Areas</h3>
+          <p>Based in South West Sydney, we service residential, commercial, real estate and strata across all of Sydney.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-handshake"></i></div>
+          <h3>Honest Service</h3>
+          <p>Straightforward pricing and honest advice. We treat every property like our own and deliver on our word.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== GALLERY ===================== -->
+  <section class="gallery" id="gallery">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Our Work</span>
+        <h2 class="section-title">Before &amp; After</h2>
+        <p class="section-sub">Real results from real jobs across Sydney. See the Apex difference for yourself.</p>
+      </div>
+      <div class="gallery-grid">
+
+        <div class="gallery-item">
+          <div class="gallery-img-wrap">
+            <img src="gallery1-1.jpeg" alt="Lawn mowing before and after — residential pool area, South West Sydney">
+            <div class="gallery-labels">
+              <span class="gl-before">Before</span>
+              <span class="gl-after">After</span>
+            </div>
+          </div>
+          <div class="gallery-caption">
+            <i class="fas fa-seedling"></i>
+            Lawn Mowing — Residential Pool Area
+          </div>
+        </div>
+
+        <div class="gallery-item">
+          <div class="gallery-img-wrap">
+            <img src="gallery-2.jpeg" alt="Garden maintenance before and after — large residential lawn">
+            <div class="gallery-labels">
+              <span class="gl-before">Before</span>
+              <span class="gl-after">After</span>
+            </div>
+          </div>
+          <div class="gallery-caption">
+            <i class="fas fa-leaf"></i>
+            Garden Maintenance — Large Residential
+          </div>
+        </div>
+
+        <div class="gallery-item">
+          <div class="gallery-img-wrap">
+            <img src="gallery-3.jpeg" alt="Property clean up before and after — courtyard restoration">
+            <div class="gallery-labels">
+              <span class="gl-before">Before</span>
+              <span class="gl-after">After</span>
+            </div>
+          </div>
+          <div class="gallery-caption">
+            <i class="fas fa-broom"></i>
+            Property Clean Up — Courtyard Restoration
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CONTACT ===================== -->
+  <section class="contact" id="contact">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Get in Touch</span>
+        <h2 class="section-title">Request a Free Quote</h2>
+        <p class="section-sub">Fill out the form below and we'll get back to you promptly. Or give us a call — we're happy to help.</p>
+      </div>
+      <div class="contact-grid">
+
+        <!-- Info sidebar -->
+        <div class="contact-info">
+          <h3>Contact Details</h3>
+          <div class="contact-item">
+            <div class="ci-icon"><i class="fas fa-user"></i></div>
+            <div>
+              <span class="ci-label">Contact</span>
+              <span class="ci-value">Jamel Saliadarre</span>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="ci-icon"><i class="fas fa-phone"></i></div>
+            <div>
+              <span class="ci-label">Phone</span>
+              <a href="tel:0402723634" class="ci-value">0402 723 634</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="ci-icon"><i class="fas fa-envelope"></i></div>
+            <div>
+              <span class="ci-label">Email</span>
+              <a href="mailto:Apexlawngroup@gmail.com" class="ci-value">Apexlawngroup@gmail.com</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="ci-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div>
+              <span class="ci-label">Service Area</span>
+              <span class="ci-value">South West Sydney &amp; All Sydney Areas</span>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="ci-icon"><i class="fas fa-building"></i></div>
+            <div>
+              <span class="ci-label">We Service</span>
+              <span class="ci-value">Residential · Commercial<br>Real Estate · Strata</span>
+            </div>
+          </div>
+          <a href="tel:0402723634" class="btn btn-primary call-btn">
+            <i class="fas fa-phone"></i> Call Now — 0402 723 634
+          </a>
+        </div>
+
+        <!-- Contact form -->
+        <form class="contact-form" id="contactForm" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Full Name <span class="req">*</span></label>
+              <input type="text" id="name" name="name" placeholder="Your name" required autocomplete="name">
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone Number <span class="req">*</span></label>
+              <input type="tel" id="phone" name="phone" placeholder="Your phone number" required autocomplete="tel">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address <span class="req">*</span></label>
+            <input type="email" id="email" name="email" placeholder="Your email address" required autocomplete="email">
+          </div>
+          <div class="form-group">
+            <label for="service">Service Required</label>
+            <select id="service" name="service">
+              <option value="">Select a service...</option>
+              <option value="Lawn Mowing">Lawn Mowing</option>
+              <option value="Garden Maintenance">Garden Maintenance</option>
+              <option value="Hedge Trimming">Hedge Trimming</option>
+              <option value="Pressure Cleaning">Pressure Cleaning</option>
+              <option value="Turf Installation">Turf Installation</option>
+              <option value="Property Clean Up">Property Clean Up</option>
+              <option value="Multiple Services">Multiple Services</option>
+              <option value="Other">Other / Not Sure</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="message">Message <span class="req">*</span></label>
+            <textarea id="message" name="message" rows="5" placeholder="Tell us about your property and what you need..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary submit-btn" id="submitBtn">
+            <span>Send Enquiry</span>
+            <i class="fas fa-paper-plane"></i>
+          </button>
+          <div class="form-status" id="formStatus" role="alert"></div>
+        </form>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <img src="logo-dark.png.jpeg" alt="Apex Lawn & Maintenance" class="footer-logo"
+               onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+          <span class="logo-fallback footer-logo-fallback" style="display:none">
+            <span class="lf-apex">APEX</span>
+            <span class="lf-sub">LAWN &amp; MAINTENANCE</span>
+          </span>
+          <p>South West Sydney's trusted lawn and garden maintenance specialists. Reliable, professional service across all Sydney areas — residential, commercial, real estate and strata.</p>
+        </div>
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#contact">Get a Quote</a></li>
+          </ul>
+        </div>
+        <div class="footer-services">
+          <h4>Our Services</h4>
+          <ul>
+            <li>Lawn Mowing</li>
+            <li>Garden Maintenance</li>
+            <li>Hedge Trimming</li>
+            <li>Pressure Cleaning</li>
+            <li>Turf Installation</li>
+            <li>Property Clean Ups</li>
+          </ul>
+        </div>
+        <div class="footer-contact-col">
+          <h4>Contact Us</h4>
+          <p><i class="fas fa-user"></i> Jamel Saliadarre</p>
+          <p><i class="fas fa-phone"></i> <a href="tel:0402723634">0402 723 634</a></p>
+          <p><i class="fas fa-envelope"></i> <a href="mailto:Apexlawngroup@gmail.com">Apexlawngroup@gmail.com</a></p>
+          <p><i class="fas fa-map-marker-alt"></i> South West Sydney &amp; All Sydney Areas</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Apex Lawn &amp; Maintenance. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
