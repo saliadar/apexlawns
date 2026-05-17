@@ -14,7 +14,7 @@
 
 const EMAILJS_PUBLIC_KEY  = 'dK_PzFL8tZ4arIVgk';
 const EMAILJS_SERVICE_ID  = 'service_oqelb48';
-const EMAILJS_TEMPLATE_ID = 't94jvp8';
+const EMAILJS_TEMPLATE_ID = 'template_r1oii5d';
 
 /* ── Init EmailJS ── */
 (function () {
