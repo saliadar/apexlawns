@@ -136,7 +136,7 @@ button { font-family: var(--font-body); }
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 28px;
-  height: 88px;
+  height: 170px;
   position: relative;
   display: flex;
   align-items: center;
@@ -148,7 +148,7 @@ button { font-family: var(--font-body); }
   transform: translateX(-50%);
 }
 .logo-img {
-  height: 80px;
+  height: 160px;
   width: auto;
   mix-blend-mode: screen;
 }
@@ -243,7 +243,7 @@ button { font-family: var(--font-body); }
   align-items: center;
   justify-content: center;
   position: relative;
-  padding: 130px 28px 100px;
+  padding: 210px 28px 100px;
   text-align: center;
   overflow: hidden;
 }
@@ -647,7 +647,7 @@ button { font-family: var(--font-body); }
   gap: 48px;
   padding-bottom: 56px;
 }
-.footer-logo { height: 80px; margin-bottom: 20px; mix-blend-mode: screen; }
+.footer-logo { height: 160px; margin-bottom: 20px; mix-blend-mode: screen; }
 .footer-logo-fallback { margin-bottom: 20px; }
 .footer-brand p {
   color: rgba(255,255,255,0.45);
@@ -730,7 +730,7 @@ button { font-family: var(--font-body); }
   .nav-logo { position: absolute; left: 50%; transform: translateX(-50%); }
   .nav-menu {
     position: fixed;
-    top: 72px; left: 0; right: 0; bottom: 0;
+    top: 170px; left: 0; right: 0; bottom: 0;
     background: var(--black);
     flex-direction: column;
     justify-content: center;
