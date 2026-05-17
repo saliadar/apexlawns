@@ -12,9 +12,9 @@
    5. Replace the three placeholder values below
    ========================================= */
 
-const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';   // e.g. 'abc123XYZ'
-const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';   // e.g. 'service_abc123'
-const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';  // e.g. 'template_abc123'
+const EMAILJS_PUBLIC_KEY  = 'dK_PzFL8tZ4arIVgk';
+const EMAILJS_SERVICE_ID  = 'service_oqelb48';
+const EMAILJS_TEMPLATE_ID = 't94jvp8';
 
 /* ── Init EmailJS ── */
 (function () {
