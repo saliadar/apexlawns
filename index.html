@@ -496,6 +496,14 @@ src="https://www.facebook.com/tr?id=28051489157784302&ev=PageView&noscript=1"
     document.getElementById('contactForm').addEventListener('submit', function(e) {
       e.preventDefault();
 
+      const submitBtn = document.getElementById('submitBtn');
+      const formStatus = document.getElementById('formStatus');
+
+      // Disable button to prevent double submissions
+      submitBtn.disabled = true;
+      const originalText = submitBtn.innerHTML;
+      submitBtn.innerHTML = '<span>Sending...</span><i class="fas fa-spinner fa-spin"></i>';
+
       const name = document.getElementById('name').value;
       const email = document.getElementById('email').value;
       const phone = document.getElementById('phone').value;
@@ -517,15 +525,24 @@ src="https://www.facebook.com/tr?id=28051489157784302&ev=PageView&noscript=1"
         });
 
         // Show success message
-        const formStatus = document.getElementById('formStatus');
         formStatus.style.color = '#28a745';
         formStatus.textContent = '✓ Your enquiry has been sent! We\'ll be in touch soon.';
         document.getElementById('contactForm').reset();
+
+        // Re-enable button after 2 seconds
+        setTimeout(function() {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalText;
+          formStatus.textContent = '';
+        }, 2000);
       }, function(error) {
         // Handle error
-        const formStatus = document.getElementById('formStatus');
         formStatus.style.color = '#dc3545';
         formStatus.textContent = '✗ Error sending message. Please try again or call us directly.';
+
+        // Re-enable button so user can retry
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
       });
     });
 
