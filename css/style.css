@@ -140,12 +140,12 @@ button { font-family: var(--font-body); }
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
 .nav-logo {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  position: relative;
+  transform: none;
+  flex-shrink: 0;
 }
 .logo-img {
   height: 120px;
@@ -814,7 +814,7 @@ button { font-family: var(--font-body); }
    ========================================= */
 @media (max-width: 768px) {
   .nav-toggle { display: flex; }
-  .nav-logo { position: absolute; left: 50%; transform: translateX(-50%); }
+  .nav-logo { position: relative; left: auto; transform: none; }
   .nav-menu {
     position: fixed;
     top: 130px; left: 0; right: 0; bottom: 0;
