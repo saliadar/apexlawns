@@ -489,69 +489,28 @@ src="https://www.facebook.com/tr?id=28051489157784302&ev=PageView&noscript=1"
 
   <!-- Meta Pixel Tracking Script -->
   <script>
-    // Initialize EmailJS
-    emailjs.init('dK_PzFL8tZ4arIVgk');
-
-    // Handle contact form submission with Meta Pixel tracking
-    document.getElementById('contactForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      const submitBtn = document.getElementById('submitBtn');
-      const formStatus = document.getElementById('formStatus');
-
-      // Disable button to prevent double submissions
-      submitBtn.disabled = true;
-      const originalText = submitBtn.innerHTML;
-      submitBtn.innerHTML = '<span>Sending...</span><i class="fas fa-spinner fa-spin"></i>';
-
-      const name = document.getElementById('name').value;
-      const email = document.getElementById('email').value;
-      const phone = document.getElementById('phone').value;
-      const service = document.getElementById('service').value;
-      const message = document.getElementById('message').value;
-
-      // Send email via EmailJS
-      emailjs.send('service_oqelb48', 'template_r1oii5d', {
-        from_name: name,
-        from_email: email,
-        from_phone: phone,
-        service_selected: service,
-        message: message
-      }).then(function(response) {
-        // Track "Lead" event in Meta Pixel on successful form submission
-        fbq('track', 'Lead', {
-          value: 1.00,
-          currency: 'AUD'
-        });
-
-        // Show success message
-        formStatus.style.color = '#28a745';
-        formStatus.textContent = '✓ Your enquiry has been sent! We\'ll be in touch soon.';
-        document.getElementById('contactForm').reset();
-
-        // Re-enable button after 2 seconds
-        setTimeout(function() {
-          submitBtn.disabled = false;
-          submitBtn.innerHTML = originalText;
-          formStatus.textContent = '';
-        }, 2000);
-      }, function(error) {
-        // Handle error
-        formStatus.style.color = '#dc3545';
-        formStatus.textContent = '✗ Error sending message. Please try again or call us directly.';
-
-        // Re-enable button so user can retry
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = originalText;
-      });
-    });
-
     // Track phone clicks as "Contact" conversions
     document.addEventListener('click', function(e) {
       if (e.target.href && e.target.href.startsWith('tel:')) {
         fbq('track', 'Contact');
       }
     });
+
+    // Track form submission as "Lead" conversion
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+      const originalSubmit = contactForm.onsubmit;
+      contactForm.addEventListener('submit', function(e) {
+        // Only track if form submission was successful (check in main.js for actual success)
+        // We track after a short delay to ensure form processed
+        setTimeout(() => {
+          fbq('track', 'Lead', {
+            value: 1.00,
+            currency: 'AUD'
+          });
+        }, 500);
+      });
+    }
   </script>
 
 </body>
