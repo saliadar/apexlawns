@@ -67,7 +67,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 /* ── Fade-up scroll animations ── */
 const fadeEls = document.querySelectorAll(
-  '.service-card, .why-card, .gallery-item, .contact-item'
+  '.service-card, .why-card, .carousel-wrapper, .contact-item'
 );
 fadeEls.forEach(el => el.classList.add('fade-up'));
 
@@ -75,7 +75,6 @@ const observer = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry, i) => {
       if (entry.isIntersecting) {
-        // Stagger siblings in the same grid
         const siblings = [...entry.target.parentElement.children];
         const idx = siblings.indexOf(entry.target);
         entry.target.style.transitionDelay = `${idx * 80}ms`;
@@ -125,7 +124,6 @@ contactForm.addEventListener('submit', function (e) {
   };
 
   if (EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY') {
-    // Dev mode: simulate send so layout can be tested without real credentials
     setTimeout(() => {
       setLoading(false);
       showStatus(
@@ -179,3 +177,52 @@ function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+
+/* ── Gallery Carousel ── */
+(function () {
+  const track    = document.getElementById('carouselTrack');
+  const dotsWrap = document.getElementById('carouselDots');
+  const prevBtn  = document.getElementById('carouselPrev');
+  const nextBtn  = document.getElementById('carouselNext');
+  if (!track || !dotsWrap || !prevBtn || !nextBtn) return;
+
+  const slides = Array.from(track.children);
+  const total  = slides.length;
+  let current  = 0;
+  let timer;
+
+  slides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+    dot.addEventListener('click', () => { goTo(i); resetTimer(); });
+    dotsWrap.appendChild(dot);
+  });
+
+  function goTo(idx) {
+    const dots = dotsWrap.querySelectorAll('.dot');
+    dots[current].classList.remove('active');
+    current = ((idx % total) + total) % total;
+    track.style.transform = 'translateX(-' + (current * 100) + '%)';
+    dots[current].classList.add('active');
+  }
+
+  prevBtn.addEventListener('click', () => { goTo(current - 1); resetTimer(); });
+  nextBtn.addEventListener('click', () => { goTo(current + 1); resetTimer(); });
+
+  function startTimer() { timer = setInterval(() => goTo(current + 1), 4500); }
+  function resetTimer()  { clearInterval(timer); startTimer(); }
+
+  const wrapper = track.closest('.carousel-wrapper');
+  wrapper.addEventListener('mouseenter', () => clearInterval(timer));
+  wrapper.addEventListener('mouseleave', () => startTimer());
+
+  let touchX = 0;
+  track.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, { passive: true });
+  track.addEventListener('touchend', e => {
+    const dx = touchX - e.changedTouches[0].clientX;
+    if (Math.abs(dx) > 50) { dx > 0 ? goTo(current + 1) : goTo(current - 1); resetTimer(); }
+  }, { passive: true });
+
+  startTimer();
+})();
