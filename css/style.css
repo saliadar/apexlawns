@@ -906,3 +906,28 @@ button { font-family: var(--font-body); }
 
   .footer-brand p { max-width: 100%; }
 }
+.footer-social {
+  display: flex;
+  gap: 14px;
+  margin-top: 20px;
+  margin-bottom: 4px;
+}
+.footer-social a {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.6);
+  font-size: 16px;
+  transition: var(--transition);
+}
+.footer-social a:hover {
+  background: var(--green);
+  border-color: var(--green);
+  color: var(--black);
+  transform: translateY(-2px);
+}
