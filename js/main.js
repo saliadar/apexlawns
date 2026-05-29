@@ -1,28 +1,8 @@
 /* =========================================
    APEX LAWN & MAINTENANCE — Main JS
-   =========================================
-
-   EMAILJS SETUP (required for contact form):
-   1. Go to https://www.emailjs.com and create a free account
-   2. Add a Gmail service and note the Service ID
-   3. Create an email template with these variables:
-        {{from_name}}, {{from_phone}}, {{from_email}}, {{service}}, {{message}}
-      Set the "To Email" in the template to: Apexlawngroup@gmail.com
-   4. Copy your Public Key from Account > API Keys
-   5. Replace the three placeholder values below
    ========================================= */
 
-const EMAILJS_PUBLIC_KEY  = 'dK_PzFL8tZ4arIVgk';
-const EMAILJS_SERVICE_ID  = 'service_oqelb48';
-const EMAILJS_TEMPLATE_ID = 'template_r1oii5d';
-
-/* ── Init EmailJS ── */
-(function () {
-  if (typeof emailjs !== 'undefined') {
-    emailjs.init(EMAILJS_PUBLIC_KEY);
-  }
-})();
-
+const WEB3FORMS_KEY = '6c8ed4e6-643b-40e9-91bf-3f99ad593ad3';
 
 /* ── Navbar: scroll shadow + active state ── */
 const navbar    = document.getElementById('navbar');
@@ -155,7 +135,7 @@ fileUploadLabel.addEventListener('drop', e => {
 });
 
 
-contactForm.addEventListener('submit', function (e) {
+contactForm.addEventListener('submit', async function (e) {
   e.preventDefault();
 
   const name    = document.getElementById('name').value.trim();
@@ -177,59 +157,39 @@ contactForm.addEventListener('submit', function (e) {
   setLoading(true);
   clearStatus();
 
-  if (EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY') {
-    setTimeout(() => {
-      setLoading(false);
-      showStatus(
-        '✓ Your enquiry has been sent! Jamel will be in touch shortly.',
-        'success'
-      );
+  const formData = new FormData();
+  formData.append('access_key', WEB3FORMS_KEY);
+  formData.append('subject', 'New Quote Enquiry from ' + name);
+  formData.append('name', name);
+  formData.append('phone', phone);
+  formData.append('email', email);
+  formData.append('service', service || 'Not specified');
+  formData.append('message', message);
+
+  selectedFiles.forEach((file, i) => {
+    formData.append('attachment[' + i + ']', file, file.name);
+  });
+
+  try {
+    const res  = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: formData });
+    const data = await res.json();
+    if (data.success) {
+      showStatus("✓ Thank you! Your enquiry has been sent. We'll be in touch shortly.", 'success');
       contactForm.reset();
       selectedFiles = [];
       renderPreviews();
-    }, 1200);
-    return;
+    } else {
+      throw new Error(data.message);
+    }
+  } catch (err) {
+    console.error('Web3Forms error:', err);
+    showStatus(
+      'Something went wrong. Please call us on 0402 723 634 or email Apexlawngroup@gmail.com directly.',
+      'error'
+    );
+  } finally {
+    setLoading(false);
   }
-
-  const photoCount = selectedFiles.length;
-  const photoNote  = photoCount > 0
-    ? `\n\n[${photoCount} photo${photoCount > 1 ? 's' : ''} attached]`
-    : '';
-
-  const templateParams = {
-    from_name:  name,
-    from_phone: phone,
-    from_email: email,
-    service:    service || 'Not specified',
-    message:    message + photoNote,
-  };
-
-  /* Send email with any attached photos via sendForm (handles file inputs natively) */
-  emailjs
-    .sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, contactForm, EMAILJS_PUBLIC_KEY)
-    .catch(() =>
-      /* Fallback: send without attachments if sendForm fails */
-      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
-    )
-    .then(() => {
-      showStatus(
-        '✓ Thank you! Your enquiry has been sent. We\'ll be in touch shortly.',
-        'success'
-      );
-      contactForm.reset();
-      selectedFiles = [];
-      renderPreviews();
-    })
-    .catch((err) => {
-      console.error('EmailJS error:', err);
-      showStatus(
-        'Something went wrong. Please call us on 0402 723 634 or email Apexlawngroup@gmail.com directly.',
-        'error'
-      );
-    })
-    .finally(() => {
-      setLoading(false);
-    });
 });
 
 function setLoading(loading) {
