@@ -53,7 +53,7 @@ fadeEls.forEach(el => el.classList.add('fade-up'));
 
 const observer = new IntersectionObserver(
   (entries) => {
-    entries.forEach((entry, i) => {
+    entries.forEach((entry) => {
       if (entry.isIntersecting) {
         const siblings = [...entry.target.parentElement.children];
         const idx = siblings.indexOf(entry.target);
@@ -68,72 +68,70 @@ const observer = new IntersectionObserver(
 fadeEls.forEach(el => observer.observe(el));
 
 
-/* ── Contact Form ── */
-const contactForm     = document.getElementById('contactForm');
-const submitBtn       = document.getElementById('submitBtn');
-const formStatus      = document.getElementById('formStatus');
-const fileInput       = document.getElementById('photos');
-const filePreview     = document.getElementById('filePreview');
-const fileUploadLabel = document.getElementById('fileUploadLabel');
-
-/* File preview management */
+/* ── File upload state ── */
 let selectedFiles = [];
 
-function updateFileInput() {
-  const dt = new DataTransfer();
-  selectedFiles.forEach(f => dt.items.add(f));
-  fileInput.files = dt.files;
+const fileInput   = document.getElementById('photos');
+const filePreview = document.getElementById('filePreview');
+const uploadLabel = document.getElementById('fileUploadLabel');
+
+if (fileInput) {
+  fileInput.addEventListener('change', () => {
+    addFiles(Array.from(fileInput.files));
+    fileInput.value = '';
+  });
 }
 
-function renderPreviews() {
-  filePreview.innerHTML = '';
-  selectedFiles.forEach((file, idx) => {
-    const item = document.createElement('div');
-    item.className = 'file-preview-item';
-    const img = document.createElement('img');
-    img.src = URL.createObjectURL(file);
-    img.alt = file.name;
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'file-preview-remove';
-    btn.innerHTML = '&times;';
-    btn.setAttribute('aria-label', 'Remove photo');
-    btn.addEventListener('click', () => {
-      URL.revokeObjectURL(img.src);
-      selectedFiles.splice(idx, 1);
-      updateFileInput();
-      renderPreviews();
-    });
-    item.appendChild(img);
-    item.appendChild(btn);
-    filePreview.appendChild(item);
+if (uploadLabel) {
+  uploadLabel.addEventListener('dragover', e => {
+    e.preventDefault();
+    uploadLabel.classList.add('drag-over');
+  });
+  uploadLabel.addEventListener('dragleave', () => uploadLabel.classList.remove('drag-over'));
+  uploadLabel.addEventListener('drop', e => {
+    e.preventDefault();
+    uploadLabel.classList.remove('drag-over');
+    addFiles(Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/')));
   });
 }
 
 function addFiles(newFiles) {
-  const MAX = 5;
-  Array.from(newFiles).forEach(f => {
-    if (selectedFiles.length < MAX && f.type.startsWith('image/')) {
-      selectedFiles.push(f);
-    }
+  const remaining = 5 - selectedFiles.length;
+  newFiles.slice(0, remaining).forEach(file => {
+    selectedFiles.push(file);
+    renderThumb(file, selectedFiles.length - 1);
   });
-  updateFileInput();
-  renderPreviews();
 }
 
-fileInput.addEventListener('change', () => addFiles(fileInput.files));
+function renderThumb(file, idx) {
+  const reader = new FileReader();
+  reader.onload = e => {
+    const item = document.createElement('div');
+    item.className = 'file-preview-item';
+    item.dataset.idx = idx;
+    item.innerHTML = `
+      <img src="${e.target.result}" alt="${file.name}">
+      <button type="button" class="file-preview-remove" aria-label="Remove photo">&#x2715;</button>
+    `;
+    item.querySelector('.file-preview-remove').addEventListener('click', () => {
+      selectedFiles.splice(idx, 1);
+      renderAllThumbs();
+    });
+    filePreview.appendChild(item);
+  };
+  reader.readAsDataURL(file);
+}
 
-fileUploadLabel.addEventListener('dragover', e => {
-  e.preventDefault();
-  fileUploadLabel.classList.add('dragover');
-});
-fileUploadLabel.addEventListener('dragleave', () => fileUploadLabel.classList.remove('dragover'));
-fileUploadLabel.addEventListener('drop', e => {
-  e.preventDefault();
-  fileUploadLabel.classList.remove('dragover');
-  addFiles(e.dataTransfer.files);
-});
+function renderAllThumbs() {
+  filePreview.innerHTML = '';
+  selectedFiles.forEach((file, idx) => renderThumb(file, idx));
+}
 
+
+/* ── Contact Form ── */
+const contactForm = document.getElementById('contactForm');
+const submitBtn   = document.getElementById('submitBtn');
+const formStatus  = document.getElementById('formStatus');
 
 contactForm.addEventListener('submit', async function (e) {
   e.preventDefault();
@@ -157,29 +155,29 @@ contactForm.addEventListener('submit', async function (e) {
   setLoading(true);
   clearStatus();
 
-  const formData = new FormData();
-  formData.append('access_key', WEB3FORMS_KEY);
-  formData.append('subject', 'New Quote Enquiry from ' + name);
-  formData.append('name', name);
-  formData.append('phone', phone);
-  formData.append('email', email);
-  formData.append('service', service || 'Not specified');
-  formData.append('message', message);
-
-  selectedFiles.forEach((file, i) => {
-    formData.append('attachment[' + i + ']', file, file.name);
-  });
-
   try {
+    const formData = new FormData();
+    formData.append('access_key', WEB3FORMS_KEY);
+    formData.append('subject', 'New Quote Enquiry from ' + name);
+    formData.append('name', name);
+    formData.append('phone', phone);
+    formData.append('email', email);
+    formData.append('service', service || 'Not specified');
+    formData.append('message', message);
+    selectedFiles.forEach((file, i) => {
+      formData.append('attachment[' + i + ']', file, file.name);
+    });
+
     const res  = await fetch('https://api.web3forms.com/submit', { method: 'POST', body: formData });
     const data = await res.json();
+
     if (data.success) {
-      showStatus("✓ Thank you! Your enquiry has been sent. We'll be in touch shortly.", 'success');
+      showStatus('✓ Thank you! Your enquiry has been sent. We\'ll be in touch shortly.', 'success');
       contactForm.reset();
       selectedFiles = [];
-      renderPreviews();
+      filePreview.innerHTML = '';
     } else {
-      throw new Error(data.message);
+      throw new Error(data.message || 'Submission failed');
     }
   } catch (err) {
     console.error('Web3Forms error:', err);
@@ -196,7 +194,7 @@ function setLoading(loading) {
   submitBtn.disabled = loading;
   submitBtn.innerHTML = loading
     ? '<span>Sending...</span><i class="fas fa-spinner fa-spin"></i>'
-    : '<span>Claim 20% OFF — Send Enquiry</span><i class="fas fa-paper-plane"></i>';
+    : '<span>Send Enquiry</span><i class="fas fa-paper-plane"></i>';
 }
 
 function showStatus(msg, type) {
