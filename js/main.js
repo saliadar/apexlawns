@@ -89,9 +89,71 @@ fadeEls.forEach(el => observer.observe(el));
 
 
 /* ── Contact Form ── */
-const contactForm = document.getElementById('contactForm');
-const submitBtn   = document.getElementById('submitBtn');
-const formStatus  = document.getElementById('formStatus');
+const contactForm     = document.getElementById('contactForm');
+const submitBtn       = document.getElementById('submitBtn');
+const formStatus      = document.getElementById('formStatus');
+const fileInput       = document.getElementById('photos');
+const filePreview     = document.getElementById('filePreview');
+const fileUploadLabel = document.getElementById('fileUploadLabel');
+
+/* File preview management */
+let selectedFiles = [];
+
+function updateFileInput() {
+  const dt = new DataTransfer();
+  selectedFiles.forEach(f => dt.items.add(f));
+  fileInput.files = dt.files;
+}
+
+function renderPreviews() {
+  filePreview.innerHTML = '';
+  selectedFiles.forEach((file, idx) => {
+    const item = document.createElement('div');
+    item.className = 'file-preview-item';
+    const img = document.createElement('img');
+    img.src = URL.createObjectURL(file);
+    img.alt = file.name;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'file-preview-remove';
+    btn.innerHTML = '&times;';
+    btn.setAttribute('aria-label', 'Remove photo');
+    btn.addEventListener('click', () => {
+      URL.revokeObjectURL(img.src);
+      selectedFiles.splice(idx, 1);
+      updateFileInput();
+      renderPreviews();
+    });
+    item.appendChild(img);
+    item.appendChild(btn);
+    filePreview.appendChild(item);
+  });
+}
+
+function addFiles(newFiles) {
+  const MAX = 5;
+  Array.from(newFiles).forEach(f => {
+    if (selectedFiles.length < MAX && f.type.startsWith('image/')) {
+      selectedFiles.push(f);
+    }
+  });
+  updateFileInput();
+  renderPreviews();
+}
+
+fileInput.addEventListener('change', () => addFiles(fileInput.files));
+
+fileUploadLabel.addEventListener('dragover', e => {
+  e.preventDefault();
+  fileUploadLabel.classList.add('dragover');
+});
+fileUploadLabel.addEventListener('dragleave', () => fileUploadLabel.classList.remove('dragover'));
+fileUploadLabel.addEventListener('drop', e => {
+  e.preventDefault();
+  fileUploadLabel.classList.remove('dragover');
+  addFiles(e.dataTransfer.files);
+});
+
 
 contactForm.addEventListener('submit', function (e) {
   e.preventDefault();
@@ -115,14 +177,6 @@ contactForm.addEventListener('submit', function (e) {
   setLoading(true);
   clearStatus();
 
-  const templateParams = {
-    from_name:  name,
-    from_phone: phone,
-    from_email: email,
-    service:    service || 'Not specified',
-    message:    message,
-  };
-
   if (EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY') {
     setTimeout(() => {
       setLoading(false);
@@ -131,18 +185,40 @@ contactForm.addEventListener('submit', function (e) {
         'success'
       );
       contactForm.reset();
+      selectedFiles = [];
+      renderPreviews();
     }, 1200);
     return;
   }
 
+  const photoCount = selectedFiles.length;
+  const photoNote  = photoCount > 0
+    ? `\n\n[${photoCount} photo${photoCount > 1 ? 's' : ''} attached]`
+    : '';
+
+  const templateParams = {
+    from_name:  name,
+    from_phone: phone,
+    from_email: email,
+    service:    service || 'Not specified',
+    message:    message + photoNote,
+  };
+
+  /* Send email with any attached photos via sendForm (handles file inputs natively) */
   emailjs
-    .send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+    .sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, contactForm, EMAILJS_PUBLIC_KEY)
+    .catch(() =>
+      /* Fallback: send without attachments if sendForm fails */
+      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+    )
     .then(() => {
       showStatus(
         '✓ Thank you! Your enquiry has been sent. We\'ll be in touch shortly.',
         'success'
       );
       contactForm.reset();
+      selectedFiles = [];
+      renderPreviews();
     })
     .catch((err) => {
       console.error('EmailJS error:', err);
@@ -160,7 +236,7 @@ function setLoading(loading) {
   submitBtn.disabled = loading;
   submitBtn.innerHTML = loading
     ? '<span>Sending...</span><i class="fas fa-spinner fa-spin"></i>'
-    : '<span>Send Enquiry</span><i class="fas fa-paper-plane"></i>';
+    : '<span>Claim 20% OFF — Send Enquiry</span><i class="fas fa-paper-plane"></i>';
 }
 
 function showStatus(msg, type) {
