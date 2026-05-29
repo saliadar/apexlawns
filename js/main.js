@@ -13,7 +13,6 @@ window.addEventListener('scroll', () => {
   navbar.classList.toggle('scrolled', window.scrollY > 40);
 });
 
-
 /* ── Mobile menu toggle ── */
 navToggle.addEventListener('click', () => {
   const open = navMenu.classList.toggle('open');
@@ -31,7 +30,6 @@ function closeMenu() {
   document.body.style.overflow = '';
 }
 
-
 /* ── Smooth scroll for anchor links ── */
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function (e) {
@@ -43,7 +41,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     window.scrollTo({ top, behavior: 'smooth' });
   });
 });
-
 
 /* ── Fade-up scroll animations ── */
 const fadeEls = document.querySelectorAll(
@@ -66,7 +63,6 @@ const observer = new IntersectionObserver(
   { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
 );
 fadeEls.forEach(el => observer.observe(el));
-
 
 /* ── File upload state ── */
 let selectedFiles = [];
@@ -111,7 +107,7 @@ function renderThumb(file, idx) {
     item.dataset.idx = idx;
     item.innerHTML = `
       <img src="${e.target.result}" alt="${file.name}">
-      <button type="button" class="file-preview-remove" aria-label="Remove photo">&#x2715;</button>
+      <button type="button" class="file-preview-remove" aria-label="Remove photo">✕</button>
     `;
     item.querySelector('.file-preview-remove').addEventListener('click', () => {
       selectedFiles.splice(idx, 1);
@@ -126,7 +122,6 @@ function renderAllThumbs() {
   filePreview.innerHTML = '';
   selectedFiles.forEach((file, idx) => renderThumb(file, idx));
 }
-
 
 /* ── Contact Form ── */
 const contactForm = document.getElementById('contactForm');
@@ -177,14 +172,10 @@ contactForm.addEventListener('submit', async function (e) {
       selectedFiles = [];
       filePreview.innerHTML = '';
     } else {
-      throw new Error(data.message || 'Submission failed');
+      showStatus('Web3Forms error: ' + (data.message || 'no message returned'), 'error');
     }
   } catch (err) {
-    console.error('Web3Forms error:', err);
-    showStatus(
-      'Something went wrong. Please call us on 0402 723 634 or email Apexlawngroup@gmail.com directly.',
-      'error'
-    );
+    showStatus('Network error: ' + err.message, 'error');
   } finally {
     setLoading(false);
   }
@@ -194,7 +185,7 @@ function setLoading(loading) {
   submitBtn.disabled = loading;
   submitBtn.innerHTML = loading
     ? '<span>Sending...</span><i class="fas fa-spinner fa-spin"></i>'
-    : '<span>Send Enquiry</span><i class="fas fa-paper-plane"></i>';
+    : '<span>Claim 20% OFF — Send Enquiry</span><i class="fas fa-paper-plane"></i>';
 }
 
 function showStatus(msg, type) {
@@ -210,7 +201,6 @@ function clearStatus() {
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
-
 
 /* ── Gallery Carousel ── */
 (function () {
