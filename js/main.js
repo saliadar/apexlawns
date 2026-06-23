@@ -109,7 +109,7 @@ function setLoading(loading) {
   submitBtn.disabled = loading;
   submitBtn.innerHTML = loading
     ? '<span>Sending...</span><i class="fas fa-spinner fa-spin"></i>'
-    : '<span>Claim 20% OFF — Send Enquiry</span><i class="fas fa-paper-plane"></i>';
+    : '<span>Send Enquiry</span><i class="fas fa-paper-plane"></i>';
 }
 function showStatus(msg, type) { formStatus.textContent = msg; formStatus.className = 'form-status ' + type; }
 function clearStatus() { formStatus.textContent = ''; formStatus.className = 'form-status'; }
